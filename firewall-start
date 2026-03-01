@@ -1,0 +1,14 @@
+#!/bin/sh
+# firewall-start — Called by Asuswrt-Merlin after firewall rules are loaded
+# Ensures the CURFEW iptables chain exists after reboot
+
+CHAIN="CURFEW"
+
+# Create chain if it doesn't exist
+iptables -N "$CHAIN" 2>/dev/null
+
+# Insert jump to CURFEW chain in FORWARD if not already present
+iptables -C FORWARD -j "$CHAIN" 2>/dev/null || iptables -I FORWARD -j "$CHAIN"
+
+# Run an immediate curfew check
+/jffs/scripts/curfew.sh check

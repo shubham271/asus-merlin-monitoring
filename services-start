@@ -1,0 +1,22 @@
+#!/bin/sh
+# services-start — Called by Asuswrt-Merlin after all services have started
+# Sets up all cron jobs for router automation
+
+# WAN watchdog — always runs (exempt from health gate)
+cru a wan-watchdog "* * * * * /jffs/scripts/wan-watchdog.sh"
+
+# Health monitor — checks router health every 2 minutes
+cru a health_monitor "*/2 * * * * /jffs/scripts/health-monitor.sh"
+
+# Push router metrics to Grafana every minute
+cru a push_metrics "*/1 * * * * /jffs/scripts/push-metrics.sh"
+
+# DuckDNS — check IP every 5 minutes, force update daily at 4 AM
+cru a duckdns_update "*/5 * * * * /jffs/scripts/duckdns-update.sh"
+cru a duckdns_force "0 4 * * * /jffs/scripts/duckdns-force.sh"
+
+# WiFi channel optimizer — weekly Sunday 3 AM
+cru a wifi_optimize "0 3 * * 0 /jffs/scripts/wifi-channel-optimizer.sh"
+
+# Internet curfew — check every 5 minutes
+cru a curfew_check "*/5 * * * * /jffs/scripts/curfew.sh check"
