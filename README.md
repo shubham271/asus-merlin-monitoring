@@ -21,10 +21,10 @@ Shell-based automation suite for Asuswrt-Merlin routers (tested on GT-AX11000). 
 ## Architecture
 
 ```
-┌──────────────┐    SSH + curl     ┌────────────────┐     scrape     ┌─────────┐
+┌──────────────┐    SSH + curl    ┌────────────────┐     scrape    ┌──────────┐
 │  GT-AX11000  │ ───────────────> │  Pushgateway   │ <──────────── │Prometheus│
 │  (router)    │   push-metrics   │  :9091         │               │  :9090   │
-└──────────────┘                  └────────────────┘               └────┬─────┘
+└──────────────┘                  └────────────────┘               └───┬──────┘
                                                                        │
                                                                   ┌────▼─────┐
                                                                   │ Grafana  │
